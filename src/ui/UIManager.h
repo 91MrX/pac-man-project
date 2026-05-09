@@ -4,6 +4,8 @@
 class UIManager {
 public:
     void render(sf::RenderWindow& window, int score, int highScore, int lives);
+    UIManager();
+    ~UIManager();
 private:
     sf::Font m_font;
     sf::Text m_scoreText;

@@ -26,6 +26,13 @@ bool MapManager::LoadFromFile(const string &fileName) {
                 return false;
             }
                 world.insert({Point(col,row),val});
+            if (val=='P') {
+                PacmanPos=Point(col,row);
+
+            }
+            else if (val=='G') {
+                GhostPos=Point(col,row);
+            }
         }
     }
 file.close();
@@ -40,6 +47,12 @@ if (val=='W') {
 else {
     return true;
 }}
+Point MapManager::getPacmanStartPos() const {
+    return PacmanPos;
+}
+Point MapManager::getGhostStartPos() const {
+    return GhostPos;
+}
 bool MapManager::isWalkable(int x,int y) const {
     if (x<0||x>width-1||y<0||y>height-1) return false;
     char val=world.at(Point(x,y));

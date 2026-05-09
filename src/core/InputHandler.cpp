@@ -36,10 +36,10 @@ void InputHandler::handleEvents(const sf::Event& event) {
         }
     }
 }
-    Direction InputHandler::getDirection() const {
+Direction InputHandler::getDirection() const {
     return m_direction;
 }
 bool InputHandler::isActionTriggered() const {
     // 这里可以根据需要实现特殊状态的触发逻辑
-    return false; // 默认返回false，表示没有特殊状态被触发
+    return false; // 默认返回false，表示没有特殊状态
 }

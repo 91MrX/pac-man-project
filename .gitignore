@@ -15,6 +15,7 @@ CMakeFiles/
 CMakeCache.txt
 cmake_install.cmake
 Makefile
+CMakeLists.txt
 
 # Compiled output
 *.o

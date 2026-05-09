@@ -1,4 +1,9 @@
-#include"PlayingState.h"
+#include "PlayingState.h"
+#include "../map/MapManager.h"
+#include "../entities/Pacman.h"
+#include "../entities/Ghost.h"
+#include "../ui/UIManager.h"
+#include "../managers/ScoreManager.h"
 
 using namespace std;
 PlayingState::PlayingState() {

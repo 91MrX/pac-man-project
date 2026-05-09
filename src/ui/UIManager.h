@@ -3,11 +3,10 @@
 
 class UIManager {
 public:
-    void render(sf::RenderWindow& window, int score, int highScore, int lives);
-    UIManager();
-    ~UIManager();
+    UIManager(int score = 0, int highScore = 0, int lives = 3);
+    void render(sf::RenderWindow& window);
 private:
-    sf::Font m_font;
-    sf::Text m_scoreText;
-    sf::Text m_livesText;
+    int m_score;
+    int m_highScore;
+    int m_lives;
 };

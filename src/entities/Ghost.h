@@ -22,6 +22,5 @@ public:
     Point getPosition();
     Ghost (int x,int y,double speed,Direction dir,MapManager* map);
     void reset();
-
     Direction getDirection(const Point& pacmanPos, const Point& blinkyPos);
 };

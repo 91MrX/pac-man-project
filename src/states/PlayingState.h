@@ -25,4 +25,5 @@ private:
     MapManager* m_map;
     UIManager* m_uiManager;
     ScoreManager* m_scoreManager;
+    Point revivePoint; 
 };

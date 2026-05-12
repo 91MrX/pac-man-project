@@ -36,13 +36,44 @@ PlayingState::PlayingState()
                 m_walls.push_back(new Wall(i, j));
             } else if (tile == 'F') {
                 m_items.push_back(new Fruit(i, j));
+            } else if (tile == 'E'){
+                revivePoint = Point(i, j);
             }
         }
     }
 }
+
 PlayingState::~PlayingState() 
 {
-    delete m_map;
     delete m_pacman;
+    for (auto ghost : m_ghosts) {
+        delete ghost;
+    }
+    for (auto item : m_items) {
+        delete item;
+    }
+    for (auto wall : m_walls) {
+        delete wall;
+    }
+    delete m_map;
     delete m_uiManager;
     delete m_scoreManager;
+}
+
+
+void PlayingState::handleInput(GameEngine& engine, sf::Event& event) 
+{
+      engine.m_inputHandler.handleEvents(event);
+      
+}
+
+void PlayingState::update(GameEngine& engine, float deltaTime) 
+{
+    m_pacman->update(deltaTime);
+    for (auto ghost : m_ghosts) {
+        ghost->update(deltaTime);
+    }
+    for (auto item : m_items) {
+        item->update(deltaTime);
+    }
+    

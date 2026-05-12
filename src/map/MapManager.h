@@ -11,6 +11,9 @@ public:
     int width, height;
     Point PacmanPos;
     Point GhostPos;
+    Point GhostStartPos;
+    Point PacmanStartPos;
+    Point GhostDoor;
     map<Point,char> world;
     map<Point,bool>walkable;
     bool isWalkable(const Point &p) const;

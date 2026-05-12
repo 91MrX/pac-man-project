@@ -13,6 +13,8 @@
 #include "../ui/UIManager.h"
 #include "../managers/ScoreManager.h"
 #include "../core/Config.h"
+#include "PausedState.h"
+#include "GameOverState.h"
 
 using namespace std;
 PlayingState::PlayingState() 
@@ -61,19 +63,100 @@ PlayingState::~PlayingState()
 }
 
 
-void PlayingState::handleInput(GameEngine& engine, sf::Event& event) 
+void PlayingState::handleInput(GameEngine& engine, sf::Event& event)
 {
-      engine.m_inputHandler.handleEvents(event);
-      
+    if (event.type == sf::Event::KeyPressed) {
+        switch (event.key.code) {
+            case sf::Keyboard::Up:
+            case sf::Keyboard::W:
+                m_pacman->setDirection(Direction::Up); break;
+            case sf::Keyboard::Down:
+            case sf::Keyboard::S:
+                m_pacman->setDirection(Direction::Down); break;
+            case sf::Keyboard::Left:
+            case sf::Keyboard::A:
+                m_pacman->setDirection(Direction::Left); break;
+            case sf::Keyboard::Right:
+            case sf::Keyboard::D:
+                m_pacman->setDirection(Direction::Right); break;
+            case sf::Keyboard::P:
+            case sf::Keyboard::Escape:
+                engine.pushState(new PausedState()); break;
+            default: break;
+        }
+    }
 }
 
-void PlayingState::update(GameEngine& engine, float deltaTime) 
+void PlayingState::update(GameEngine& engine, float deltaTime)
 {
     m_pacman->update(deltaTime);
     for (auto ghost : m_ghosts) {
         ghost->update(deltaTime);
     }
-    for (auto item : m_items) {
-        item->update(deltaTime);
+
+    // Pacman vs Items
+    for (auto it = m_items.begin(); it != m_items.end();) {
+        Item* item = *it;
+        if (item->isActive() && m_pacman->getBounds().intersects(item->getBounds())) {
+            ItemType type = item->onCollect();
+            m_scoreManager->addScore(item->getScore());
+
+            if (type == ItemType::PowerPellet) {
+                for (auto ghost : m_ghosts) {
+                    ghost->setFrightened();
+                }
+            }
+            delete item;
+            it = m_items.erase(it);
+        } else {
+            ++it;
+        }
     }
-    
+
+    // Pacman vs Ghosts
+    for (auto ghost : m_ghosts) {
+        if (!ghost->isAlive) continue;
+        if (!m_pacman->getBounds().intersects(ghost->getBounds())) continue;
+
+        if (ghost->state == Ghost::State::Frightened) {
+            ghost->eaten();
+            m_scoreManager->addScore(200);
+        } else if (ghost->state != Ghost::State::Eaten) {
+            m_pacman->die();
+            if (m_pacman->lives <= 0) {
+                engine.changeState(new GameOverState(false, m_scoreManager->getScore()));
+                return;
+            }
+            for (auto g : m_ghosts) {
+                g->reset();
+            }
+        }
+    }
+
+    // Win check: all dots and pellets eaten
+    bool allEaten = true;
+    for (auto item : m_items) {
+        if (item->onCollect() == ItemType::Dot || item->onCollect() == ItemType::PowerPellet) {
+            allEaten = false;
+            break;
+        }
+    }
+    if (allEaten) {
+        engine.changeState(new GameOverState(true, m_scoreManager->getScore()));
+    }
+}
+ 
+void PlayingState::render(sf::RenderWindow& window) 
+{
+    for (auto wall : m_walls) {
+        wall->render(window);
+    }
+    for (auto item : m_items) {
+        item->render(window);
+    }
+    m_pacman->render(window);
+    for (auto ghost : m_ghosts) {
+        ghost->render(window);
+    }
+    m_uiManager->render(window);
+}

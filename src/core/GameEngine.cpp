@@ -46,7 +46,6 @@ void GameEngine::processEvents() {
             (event.type == sf::Event::KeyPressed && event.key.code == sf::Keyboard::Escape)) {
             m_window.close();
         }
-        m_inputHandler.handleEvents(event);
         if (!m_states.empty()) {
             m_states.back()->handleInput(*this, event);
         }

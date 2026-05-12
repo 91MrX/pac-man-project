@@ -3,7 +3,6 @@
 #include "Types.h"
 
 // core
-#include "InputHandler.h"
 #include "GameEngine.h"
 #include "GameObject.h"
 

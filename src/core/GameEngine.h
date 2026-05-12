@@ -1,7 +1,6 @@
 #pragma once
 #include <SFML/Graphics.hpp>
 #include <vector>
-#include "InputHandler.h"
 
 class GameState;
 
@@ -22,6 +21,5 @@ private:
 
     sf::RenderWindow m_window;
     sf::Clock m_clock;
-    InputHandler m_inputHandler;
     std::vector<GameState*> m_states;
 };

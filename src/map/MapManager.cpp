@@ -27,11 +27,14 @@ bool MapManager::LoadFromFile(const string &fileName) {
             }
                 world.insert({Point(col,row),val});
             if (val=='P') {
-                PacmanPos=Point(col,row);
+                PacmanStartPos=Point(col,row);
 
             }
             else if (val=='G') {
-                GhostPos=Point(col,row);
+                GhostStartPos=Point(col,row);
+            }
+            else if (val=='E') {
+                GhostDoor=Point(col,row);
             }
         }
     }

@@ -12,6 +12,7 @@
 #include "../items/Fruit.h"
 #include "../ui/UIManager.h"
 #include "../managers/ScoreManager.h"
+#include "../core/Config.h"
 
 using namespace std;
 PlayingState::PlayingState() 

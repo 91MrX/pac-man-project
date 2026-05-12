@@ -26,7 +26,7 @@ void GameOverState::render(sf::RenderWindow& window)
 {
     // Render the game over screen (you can add a "Game Over" text here)
     sf::Font font;
-    if (!font.loadFromFile("assets/fonts/arial.ttf")) {
+    if (!font.loadFromFile("assets/fonts/MiSans-Bold.ttf")) {
         // Handle error
         return;
     }

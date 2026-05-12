@@ -17,7 +17,7 @@ void PausedState::render(sf::RenderWindow& window)
 {
     // Render the paused screen (you can add a "Paused" text here)
     sf::Font font;
-    if (!font.loadFromFile("assets/fonts/arial.ttf")) {
+    if (!font.loadFromFile("assets/fonts/MiSans-Bold.ttf")) {
         // Handle error
         return;
     }

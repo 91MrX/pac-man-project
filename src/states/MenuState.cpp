@@ -21,7 +21,7 @@ void MenuState::render(sf::RenderWindow& window)
 {
     // Render the menu screen (you can add a "Press Enter to Start" text here)
     sf::Font font;
-    if (!font.loadFromFile("assets/fonts/arial.ttf")) {
+    if (!font.loadFromFile("assets/fonts/MiSans-Bold.ttf")) {
         // Handle error
         return;
     }

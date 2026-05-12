@@ -9,7 +9,7 @@ UIManager::~UIManager() {
 void UIManager::render(sf::RenderWindow& window) 
 {
     sf::Font font;
-    if (!font.loadFromFile("assets/fonts/arial.ttf")) {
+    if (!font.loadFromFile("assets/fonts/MiSans-Bold.ttf")) {
         // Handle error
         return;
     }

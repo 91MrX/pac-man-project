@@ -15,6 +15,7 @@
 #include "../core/Config.h"
 #include "PausedState.h"
 #include "GameOverState.h"
+#include "../core/Types.h"
 
 using namespace std;
 PlayingState::PlayingState() 
@@ -118,10 +119,10 @@ void PlayingState::update(GameEngine& engine, float deltaTime)
         if (!ghost->isAlive) continue;
         if (!m_pacman->getBounds().intersects(ghost->getBounds())) continue;
 
-        if (ghost->state == Ghost::State::Frightened) {
+        if (ghost->state == State::Frightened) {
             ghost->eaten();
             m_scoreManager->addScore(200);
-        } else if (ghost->state != Ghost::State::Eaten) {
+        } else if (ghost->state != State::Eaten) {
             m_pacman->die();
             if (m_pacman->lives <= 0) {
                 engine.changeState(new GameOverState(false, m_scoreManager->getScore()));

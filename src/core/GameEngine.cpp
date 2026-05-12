@@ -59,7 +59,7 @@ void GameEngine::update(float deltaTime) {
 }
 
 void GameEngine::render() {
-    m_window.clear(sf::Color(144, 238, 144));
+    m_window.clear(sf::Color::Black);
     for (auto* state : m_states) {
         state->render(m_window);
     }

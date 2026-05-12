@@ -1,6 +1,6 @@
 #include <SFML/Graphics.hpp>
 #include <iostream>
-
+#include "../src/core/Config.h"
 int main()
 {
     sf::RenderWindow window(sf::VideoMode(800, 800), "SFML Window", sf::Style::Resize | sf::Style::Close);

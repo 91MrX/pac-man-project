@@ -19,6 +19,9 @@ void GameOverState::handleInput(GameEngine& engine, sf::Event& event)
         engine.changeState(new PlayingState()); // Restart the game
     }
 }
+void GameOverState::update(GameEngine& engine, float deltaTime) 
+{
+}
 void GameOverState::render(sf::RenderWindow& window) 
 {
     // Render the game over screen (you can add a "Game Over" text here)

@@ -5,3 +5,6 @@ ItemType Dot::onCollect() {
 int Dot::getScore() const {
     return m_score;
 }
+Dot::Dot(int x, int y) {
+    m_position = Point(x, y);
+}

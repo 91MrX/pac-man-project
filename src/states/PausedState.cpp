@@ -10,6 +10,9 @@ void PausedState::handleInput(GameEngine& engine, sf::Event& event)
         engine.popState(); // Close the game
     }
 }
+void PausedState::update(GameEngine& engine, float deltaTime) 
+{
+}
 void PausedState::render(sf::RenderWindow& window) 
 {
     // Render the paused screen (you can add a "Paused" text here)

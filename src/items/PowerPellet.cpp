@@ -5,3 +5,6 @@ ItemType PowerPellet::onCollect() {
 int PowerPellet::getScore() const {
     return m_score;
 }
+PowerPellet::PowerPellet(int x, int y) {
+    m_position = Point(x, y);
+}

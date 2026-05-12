@@ -9,7 +9,7 @@
 #include "../managers/ScoreManager.h"
 #include "../items/Item.h"
 #include "../ui/UIManager.h"
-
+#include "../map/Wall.h"
 
 class PlayingState : public GameState {
 public:
@@ -23,6 +23,7 @@ private:
     Pacman* m_pacman;
     std::vector<Ghost*> m_ghosts;
     std::vector<Item*> m_items;
+    std::vector<Wall*> m_walls;
     MapManager* m_map;
     UIManager* m_uiManager;
     ScoreManager* m_scoreManager;

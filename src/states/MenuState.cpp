@@ -1,7 +1,8 @@
 #include "MenuState.h"
 #include "../core/GameEngine.h"
 #include "PlayingState.h"
-MenuState::MenuState(int highScore=0): highScore(highScore) {
+MenuState::MenuState(int highScore=0): highScore(highScore) 
+{
 } 
 void MenuState::handleInput(GameEngine& engine, sf::Event& event) 
 {
@@ -12,6 +13,9 @@ void MenuState::handleInput(GameEngine& engine, sf::Event& event)
     {
         engine.popState(); // Close the game
     }
+}
+void MenuState::update(GameEngine& engine, float deltaTime) 
+{
 }
 void MenuState::render(sf::RenderWindow& window) 
 {

@@ -3,8 +3,6 @@
 #include <map>
 #include <unordered_map>
 #include <vector>
-
-#include "entities/Pacman.h"
 using namespace std;
 class MapManager {
 public:

@@ -145,6 +145,7 @@ void PlayingState::update(GameEngine& engine, float deltaTime)
     if (allEaten) {
         engine.changeState(new GameOverState(true, m_scoreManager->getScore()));
     }
+    m_uiManager->update(m_scoreManager->getScore(), m_scoreManager->getHighScore(), m_pacman->lives);
 }
  
 void PlayingState::render(sf::RenderWindow& window) 

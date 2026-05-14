@@ -54,9 +54,123 @@ void Ghost::update(float deltaTime) {
         }
     }
 }
+namespace {
 
-void Ghost::render(sf::RenderWindow& window) {
-    (void)window;
+constexpr float TILE = 32.0f;
+constexpr float HALF = 16.0f;
+constexpr float HEAD_RADIUS = 13.0f;
+constexpr float BODY_HEIGHT = 13.0f;
+constexpr float BUMP_RADIUS = 4.0f;
+constexpr float EYE_WHITE_RADIUS = 4.5f;
+constexpr float PUPIL_RADIUS = 2.0f;
+constexpr float PUPIL_OFFSET = 1.5f;
+const sf::Color FRIGHTENED_BLUE(33, 33, 255);
+const sf::Color PUPIL_COLOR(0, 0, 200);
+
+void drawGhostBody(sf::RenderWindow& window, float px, float py,
+                   const sf::Color& color)
+{
+    sf::CircleShape head(HEAD_RADIUS);
+    head.setFillColor(color);
+    head.setOrigin(HEAD_RADIUS, HEAD_RADIUS);
+    head.setPosition(px, py - 3.0f);
+    window.draw(head);
+
+    sf::RectangleShape body(sf::Vector2f(HEAD_RADIUS * 2.0f, BODY_HEIGHT));
+    body.setFillColor(color);
+    body.setPosition(px - HEAD_RADIUS, py - 3.0f);
+    window.draw(body);
+
+    for (float offset = -8.0f; offset <= 8.0f; offset += 8.0f) {
+        sf::CircleShape bump(BUMP_RADIUS);
+        bump.setFillColor(color);
+        bump.setOrigin(BUMP_RADIUS, BUMP_RADIUS);
+        bump.setPosition(px + offset, py - 3.0f + BODY_HEIGHT);
+        window.draw(bump);
+    }
+}
+
+void drawNormalEyes(sf::RenderWindow& window, float px, float py, Direction dir)
+{
+    float offX = 0.0f, offY = 0.0f;
+    switch (dir) {
+        case Direction::Up:    offY = -PUPIL_OFFSET; break;
+        case Direction::Down:  offY =  PUPIL_OFFSET; break;
+        case Direction::Left:  offX = -PUPIL_OFFSET; break;
+        case Direction::Right: offX =  PUPIL_OFFSET; break;
+        default: break;
+    }
+
+    for (float eyeX : {px - 5.0f, px + 5.0f}) {
+        sf::CircleShape white(EYE_WHITE_RADIUS);
+        white.setFillColor(sf::Color::White);
+        white.setOrigin(EYE_WHITE_RADIUS, EYE_WHITE_RADIUS);
+        white.setPosition(eyeX, py - 4.0f);
+        window.draw(white);
+
+        sf::CircleShape pupil(PUPIL_RADIUS);
+        pupil.setFillColor(PUPIL_COLOR);
+        pupil.setOrigin(PUPIL_RADIUS, PUPIL_RADIUS);
+        pupil.setPosition(eyeX + offX, py - 4.0f + offY);
+        window.draw(pupil);
+    }
+}
+
+void drawFrightenedFace(sf::RenderWindow& window, float px, float py)
+{
+    for (float eyeX : {px - 4.0f, px + 4.0f}) {
+        sf::CircleShape dot(1.5f);
+        dot.setFillColor(sf::Color::White);
+        dot.setOrigin(1.5f, 1.5f);
+        dot.setPosition(eyeX, py - 4.0f);
+        window.draw(dot);
+    }
+
+    sf::VertexArray mouth(sf::LineStrip, 5);
+    mouth[0].position = sf::Vector2f(px - 7.0f, py + 2.0f);
+    mouth[1].position = sf::Vector2f(px - 4.0f, py - 1.0f);
+    mouth[2].position = sf::Vector2f(px,        py + 2.0f);
+    mouth[3].position = sf::Vector2f(px + 4.0f, py - 1.0f);
+    mouth[4].position = sf::Vector2f(px + 7.0f, py + 2.0f);
+    for (int i = 0; i < 5; ++i)
+        mouth[i].color = sf::Color::White;
+    window.draw(mouth);
+}
+
+} // anonymous namespace
+
+void Ghost::render(sf::RenderWindow& window)
+{
+    if (!m_active) return;
+
+    float px = m_position.x * TILE + HALF;
+    float py = m_position.y * TILE + HALF;
+
+    if (state == State::Eaten) {
+        drawNormalEyes(window, px, py, dir);
+        return;
+    }
+
+    sf::Color bodyColor;
+    if (state == State::Frightened) {
+        float remaining = FRIGHTENED_DURATION - scarytime;
+        if (remaining <= 2.0f &&
+            static_cast<int>(scarytime * 10) % 2 == 0) {
+            bodyColor = sf::Color::White;
+        } else {
+            bodyColor = FRIGHTENED_BLUE;
+        }
+    } else {
+        bodyColor = getColor();
+    }
+
+    drawGhostBody(window, px, py, bodyColor);
+
+    if (state == State::Frightened) {
+        drawFrightenedFace(window, px, py);
+    } else {
+        drawNormalEyes(window, px, py, dir);
+    }
 }
 
 void Ghost::setFrightened() {

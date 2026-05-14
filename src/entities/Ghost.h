@@ -10,6 +10,7 @@ class Pacman;
 class Ghost: public Character {
 public:
     virtual Point chase(const Point& pacmanPos, const Point& blinkyPos,Direction pacmanDir) = 0;
+    virtual sf::Color getColor() const = 0;
     State state;
     Point spawnPoint;
     double scarytime;

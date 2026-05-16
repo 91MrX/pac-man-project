@@ -2,12 +2,12 @@
 #include "../states/GameState.h"
 
 GameEngine::GameEngine()
-    : m_window(sf::VideoMode(800, 800), "Pacman Game", sf::Style::Resize | sf::Style::Close) {
+    : m_window(sf::VideoMode(1000, 1000), "Pacman Game", sf::Style::Resize | sf::Style::Close) {
     m_window.setFramerateLimit(60);
     m_texture.loadFromFile("assets/textures/taffy.jpg");
     m_sprite.setTexture(m_texture);
     sf::Vector2u texSize = m_texture.getSize();
-    m_sprite.setScale(800.f / texSize.x,800.f / texSize.y);
+    m_sprite.setScale(1000.f / texSize.x,1000.f / texSize.y);
 }
 
 GameEngine::~GameEngine() {

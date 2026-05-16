@@ -3,8 +3,6 @@
 class PowerPellet : public Item {
 private:
     int m_score = 50;
-    sf::Texture m_texture;
-    sf::Sprite m_sprite;
 public:
     PowerPellet(int x, int y);
     ~PowerPellet() = default;

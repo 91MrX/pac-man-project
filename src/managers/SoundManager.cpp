@@ -2,7 +2,7 @@
 #include <iostream>
 
 SoundManager::SoundManager() {
-    if (m_backgroundMusic.openFromFile("assets/sounds/background.ogg")) {
+    if (m_backgroundMusic.openFromFile("assets/sounds/background.flac")) {
         m_musicLoaded = true;
         m_backgroundMusic.setLoop(true);
         m_backgroundMusic.setVolume(30.f);
@@ -22,10 +22,10 @@ SoundManager::SoundManager() {
     if (m_hurtBuffer.loadFromFile("assets/sounds/hurt.ogg")) {
         m_hurtSound.setBuffer(m_hurtBuffer);
     }
-    if (m_gameOverBuffer.loadFromFile("assets/sounds/game_over.ogg")) {
+    if (m_gameOverBuffer.loadFromFile("assets/sounds/hit2.ogg")) {
         m_gameOverSound.setBuffer(m_gameOverBuffer);
     }
-    if (m_victoryBuffer.loadFromFile("assets/sounds/victory.ogg")) {
+    if (m_victoryBuffer.loadFromFile("assets/sounds/eat1.ogg")) {
         m_victorySound.setBuffer(m_victoryBuffer);
     }
 }

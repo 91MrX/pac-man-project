@@ -3,8 +3,6 @@
 class Fruit : public Item {
 private:
     int m_score = 100;
-    sf::Texture m_texture;
-    sf::Sprite m_sprite;
 public:
     Fruit(int x, int y);
     ~Fruit() = default;

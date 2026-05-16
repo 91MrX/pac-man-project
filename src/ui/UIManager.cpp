@@ -10,11 +10,10 @@ void UIManager::update(int score, int highScore, int lives) {
     m_highScore = highScore;
     m_lives = lives;
 }
-void UIManager::render(sf::RenderWindow& window) 
+void UIManager::render(sf::RenderWindow& window)
 {
     sf::Font font;
     if (!font.loadFromFile("assets/fonts/MiSans-Bold.ttf")) {
-        // Handle error
         return;
     }
     sf::Text scoreText("Score: " + std::to_string(m_score), font, 30);
@@ -28,5 +27,5 @@ void UIManager::render(sf::RenderWindow& window)
     sf::Text livesText("Lives: " + std::to_string(m_lives), font, 30);
     livesText.setFillColor(sf::Color::Red);
     livesText.setPosition(10, 10);
-    window.draw(livesText);    
+    window.draw(livesText);
 }

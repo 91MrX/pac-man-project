@@ -21,9 +21,13 @@ bool MapManager::LoadFromFile(const string &fileName) {
     for (int row=0; row<height; row++) {
         for (int col=0; col<width; col++) {
             char val;
-            if (!file>>val) {
+            if (!file.get(val)) {
                 cerr<<"Error reading file"<<fileName<<"on"<<row<<" "<<col<<endl;
                 return false;
+            }
+            if (val == '\n' || val == '\r') {
+                col--;
+                continue;
             }
                 world.insert({Point(col,row),val});
             if (val=='M') {

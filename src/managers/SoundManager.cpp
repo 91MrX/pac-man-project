@@ -25,7 +25,7 @@ SoundManager::SoundManager() {
     if (m_gameOverBuffer.loadFromFile("assets/sounds/lose.mp3")) {
         m_gameOverSound.setBuffer(m_gameOverBuffer);
     }
-    if (m_victoryBuffer.loadFromFile("assets/sounds/eat1.ogg")) {
+    if (m_victoryBuffer.loadFromFile("assets/sounds/victory.mp3")) {
         m_victorySound.setBuffer(m_victoryBuffer);
     }
 }
@@ -88,7 +88,7 @@ void SoundManager::playVictory() {
     static sf::Sound snd;
     static bool loaded = false;
     if (!loaded) {
-        loaded = buf.loadFromFile("assets/sounds/eat1.ogg");
+        loaded = buf.loadFromFile("assets/sounds/victory.mp3");
         if (loaded) snd.setBuffer(buf);
     }
     if (loaded) snd.play();

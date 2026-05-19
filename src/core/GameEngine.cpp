@@ -4,7 +4,7 @@
 GameEngine::GameEngine()
     : m_window(sf::VideoMode(890, 1000), "Pacman Game", sf::Style::Resize | sf::Style::Close) {
     m_window.setFramerateLimit(144);
-    m_texture.loadFromFile("assets/textures/taffy.jpg");
+    m_texture.loadFromFile("assets/textures/weiwei.gif");
     m_sprite.setTexture(m_texture);
     sf::Vector2u texSize = m_texture.getSize();
     m_sprite.setScale(1000.f / texSize.x,1000.f / texSize.y);
@@ -43,11 +43,22 @@ void GameEngine::changeState(GameState* state) {
     m_states.push_back(state);
 }
 
+void GameEngine::quit() {
+    m_window.close();
+}
+
+void GameEngine::restartGame(GameState* state) {
+    for (auto* s : m_states) {
+        delete s;
+    }
+    m_states.clear();
+    m_states.push_back(state);
+}
+
 void GameEngine::processEvents() {
     sf::Event event;
     while (m_window.pollEvent(event)) {
-        if (event.type == sf::Event::Closed ||
-            (event.type == sf::Event::KeyPressed && event.key.code == sf::Keyboard::Escape)) {
+        if (event.type == sf::Event::Closed) {
             m_window.close();
         }
         if (!m_states.empty()) {

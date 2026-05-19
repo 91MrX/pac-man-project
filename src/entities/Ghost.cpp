@@ -11,7 +11,7 @@ void Ghost::update(float deltaTime) {
 
     // Eaten ghost: move back to ghost house, then respawn
     if (state == State::Eaten) {
-        moveCooldown -= deltaTime * speed * 3.0; // faster when returning
+        moveCooldown -= deltaTime * speed * 1.5; // faster when returning
         if (moveCooldown > 0.0) return;
         moveCooldown = 1.0;
 

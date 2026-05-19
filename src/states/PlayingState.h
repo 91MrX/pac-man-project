@@ -1,6 +1,7 @@
 #pragma once
 #include "GameState.h"
 #include <vector>
+#include <string>
 #include "../map/MapManager.h"
 #include "../entities/Pacman.h"
 #include "../entities/Ghost.h"
@@ -12,7 +13,7 @@
 
 class PlayingState : public GameState {
 public:
-    PlayingState();
+    PlayingState(const std::string& mapName="assets/maps/map1.txt");
     ~PlayingState();
     void handleInput(GameEngine& engine, sf::Event& event) override;
     void update(GameEngine& engine, float deltaTime) override;
@@ -23,6 +24,7 @@ private:
     std::vector<Ghost*> m_ghosts;
     std::vector<Item*> m_items;
     std::vector<Wall*> m_walls;
+    std::string m_mapName;
     MapManager* m_map;
     UIManager* m_uiManager;
     ScoreManager* m_scoreManager;

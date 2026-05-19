@@ -1,4 +1,5 @@
 #include "PlayingState.h"
+#include <string>
 #include "../core/Config.h"
 #include "../map/MapManager.h"
 #include "../map/Wall.h"
@@ -18,10 +19,10 @@
 #include "../core/Types.h"
 
 using namespace std;
-PlayingState::PlayingState() 
+PlayingState::PlayingState(const std::string& mapName) : m_mapName(mapName)
 {
     m_map = new MapManager(Config::MAP_WIDTH, Config::MAP_HEIGHT);
-    m_map->LoadFromFile("assets/maps/map2.txt");
+    m_map->LoadFromFile(m_mapName);
     m_pacman = new Pacman(m_map->getPacmanStartPos().x,m_map->getPacmanStartPos().y,Config::INITIAL_LIVES,Config::PACMAN_SPEED,Direction::None,m_map);
     m_uiManager = new UIManager();
     m_scoreManager = new ScoreManager();
@@ -96,6 +97,41 @@ void PlayingState::handleInput(GameEngine& engine, sf::Event& event)
             default: break;
         }
     }
+    // 手柄按键
+    if (event.type == sf::Event::JoystickButtonPressed) {
+        if (event.joystickButton.button == 7) { // Start
+            m_soundManager->stopBackgroundMusic();
+            engine.pushState(new PausedState());
+        }
+    }
+    // 手柄D-pad (POV)
+    if (event.type == sf::Event::JoystickMoved) {
+        if (event.joystickMove.axis == sf::Joystick::PovX) {
+            if (event.joystickMove.position > 50.f)
+                m_pacman->setDirection(Direction::Right);
+            else if (event.joystickMove.position < -50.f)
+                m_pacman->setDirection(Direction::Left);
+        }
+        if (event.joystickMove.axis == sf::Joystick::PovY) {
+            if (event.joystickMove.position > 50.f)
+                m_pacman->setDirection(Direction::Up);
+            else if (event.joystickMove.position < -50.f)
+                m_pacman->setDirection(Direction::Down);
+        }
+        // 左摇杆
+        if (event.joystickMove.axis == sf::Joystick::X) {
+            if (event.joystickMove.position > 50.f)
+                m_pacman->setDirection(Direction::Right);
+            else if (event.joystickMove.position < -50.f)
+                m_pacman->setDirection(Direction::Left);
+        }
+        if (event.joystickMove.axis == sf::Joystick::Y) {
+            if (event.joystickMove.position > 50.f)
+                m_pacman->setDirection(Direction::Down);
+            else if (event.joystickMove.position < -50.f)
+                m_pacman->setDirection(Direction::Up);
+        }
+    }
 }
 
 void PlayingState::update(GameEngine& engine, float deltaTime)
@@ -123,6 +159,9 @@ void PlayingState::update(GameEngine& engine, float deltaTime)
             if (type == ItemType::Dot) {
                 m_soundManager->playEatDot();
             }
+            if (type == ItemType::Fruit) {
+                m_soundManager->playEatPowerPellet();
+            }
             delete item;
             it = m_items.erase(it);
         } else {
@@ -145,6 +184,7 @@ void PlayingState::update(GameEngine& engine, float deltaTime)
             if (m_pacman->lives <= 0) {
                 m_soundManager->stopBackgroundMusic();
                 m_soundManager->playGameOver();
+                m_soundManager->playDeath();
                 m_scoreManager->saveHighScore("highscore.txt");
                 engine.changeState(new GameOverState(false, m_scoreManager->getScore()));
                 return;

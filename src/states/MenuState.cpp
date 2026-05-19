@@ -2,21 +2,47 @@
 #include "../core/GameEngine.h"
 #include "PlayingState.h"
 #include <fstream>
+#include <string>
+#include <vector>
+#include <cstdlib>
+#include <ctime>
+
+static const std::vector<std::string> MAP_LIST = {
+    "assets/maps/map1.txt",
+    "assets/maps/map2.txt",
+    "assets/maps/map3.txt"
+};
+
 MenuState::MenuState(int highScore): highScore(highScore)
 {
     std::ifstream file("highscore.txt");
     if (file.is_open()) {
         file >> this->highScore;
     }
+    std::srand(static_cast<unsigned>(std::time(nullptr)));
 }
+
+std::string MenuState::selectMap() {
+    return MAP_LIST[std::rand() % MAP_LIST.size()];
+}
+
 void MenuState::handleInput(GameEngine& engine, sf::Event& event)
 {
     if (event.type == sf::Event::KeyPressed && event.key.code == sf::Keyboard::Enter) {
-        engine.changeState(new PlayingState()); // Start the game
+        engine.changeState(new PlayingState(selectMap()));
     }
     if ((event.type == sf::Event::Closed)||(event.type == sf::Event::KeyPressed && event.key.code == sf::Keyboard::Escape))
     {
-        engine.popState(); // Close the game
+        engine.quit();
+    }
+    // 手柄: A键(0)或Start键(7)开始，B键(1)退出
+    if (event.type == sf::Event::JoystickButtonPressed) {
+        if (event.joystickButton.button == 0 || event.joystickButton.button == 7) {
+            engine.changeState(new PlayingState(selectMap()));
+        }
+        if (event.joystickButton.button == 1) {
+            engine.quit();
+        }
     }
 }
 void MenuState::update(GameEngine& engine, float deltaTime)

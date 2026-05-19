@@ -75,26 +75,30 @@ void UIManager::render(sf::RenderWindow& window)
     }
 
     // Lives - Minecraft-style hearts
+    float textY = 6.f;
     for (int i = 0; i < m_lives; i++) {
         drawHeart(window, 22.f + i * 38.f, 22.f, 18.f, sf::Color(220, 0, 0));
     }
 
     // Score
+    float offsetX = 22.f + m_lives * 38.f + 16.f;
     sf::Text scoreText("Score: " + std::to_string(m_score), font, 24);
     scoreText.setFillColor(sf::Color::White);
-    scoreText.setPosition(10, 40);
+    scoreText.setPosition(offsetX, textY);
     window.draw(scoreText);
 
     // High Score
-    sf::Text highScoreText("High Score: " + std::to_string(m_highScore), font, 24);
+    offsetX += scoreText.getLocalBounds().width + 24.f;
+    sf::Text highScoreText("High: " + std::to_string(m_highScore), font, 24);
     highScoreText.setFillColor(sf::Color::Green);
-    highScoreText.setPosition(10, 65);
+    highScoreText.setPosition(offsetX, textY);
     window.draw(highScoreText);
 
     // Dots remaining
+    offsetX += highScoreText.getLocalBounds().width + 24.f;
     sf::Text dotsText("Dots: " + std::to_string(m_dotsRemaining), font, 24);
     dotsText.setFillColor(sf::Color(255, 183, 174));
-    dotsText.setPosition(10, 90);
+    dotsText.setPosition(offsetX, textY);
     window.draw(dotsText);
 
     // Power pellet timer bar

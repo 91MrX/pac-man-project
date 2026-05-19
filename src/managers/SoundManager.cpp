@@ -2,7 +2,7 @@
 #include <iostream>
 
 SoundManager::SoundManager() {
-    if (m_backgroundMusic.openFromFile("assets/sounds/background.flac")) {
+    if (m_backgroundMusic.openFromFile("assets/sounds/background3.mp3")) {
         m_musicLoaded = true;
         m_backgroundMusic.setLoop(true);
         m_backgroundMusic.setVolume(30.f);
@@ -16,13 +16,13 @@ SoundManager::SoundManager() {
     if (m_eatGhostBuffer.loadFromFile("assets/sounds/burp.ogg")) {
         m_eatGhostSound.setBuffer(m_eatGhostBuffer);
     }
-    if (m_deathBuffer.loadFromFile("assets/sounds/hit2.ogg")) {
+    if (m_deathBuffer.loadFromFile("assets/sounds/lose.mp3")) {
         m_deathSound.setBuffer(m_deathBuffer);
     }
     if (m_hurtBuffer.loadFromFile("assets/sounds/hurt.ogg")) {
         m_hurtSound.setBuffer(m_hurtBuffer);
     }
-    if (m_gameOverBuffer.loadFromFile("assets/sounds/hit2.ogg")) {
+    if (m_gameOverBuffer.loadFromFile("assets/sounds/lose.mp3")) {
         m_gameOverSound.setBuffer(m_gameOverBuffer);
     }
     if (m_victoryBuffer.loadFromFile("assets/sounds/eat1.ogg")) {
@@ -73,15 +73,25 @@ void SoundManager::playHurt() {
 }
 
 void SoundManager::playGameOver() {
-    if (m_gameOverBuffer.getSampleCount() > 0) {
-        m_gameOverSound.play();
+    static sf::SoundBuffer buf;
+    static sf::Sound snd;
+    static bool loaded = false;
+    if (!loaded) {
+        loaded = buf.loadFromFile("assets/sounds/lose.mp3");
+        if (loaded) snd.setBuffer(buf);
     }
+    if (loaded) snd.play();
 }
 
 void SoundManager::playVictory() {
-    if (m_victoryBuffer.getSampleCount() > 0) {
-        m_victorySound.play();
+    static sf::SoundBuffer buf;
+    static sf::Sound snd;
+    static bool loaded = false;
+    if (!loaded) {
+        loaded = buf.loadFromFile("assets/sounds/eat1.ogg");
+        if (loaded) snd.setBuffer(buf);
     }
+    if (loaded) snd.play();
 }
 
 void SoundManager::setMusicVolume(float volume) {

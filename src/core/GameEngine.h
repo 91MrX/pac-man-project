@@ -13,6 +13,8 @@ public:
     void pushState(GameState* state);
     void popState();
     void changeState(GameState* state);
+    void restartGame(GameState* state);
+    void quit();
 
 private:
     void processEvents();

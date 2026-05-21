@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>吃豆人系统结构图</title>
+    <script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+    <style>
+        body { background: #1e1e1e; display: flex; justify-content: center; padding: 40px; }
+        .mermaid { background: #fff; border-radius: 12px; padding: 30px; }
+    </style>
+</head>
+<body>
+    <div class="mermaid">
+graph TB
+    subgraph 核心引擎["核心引擎 core"]
+        GameEngine["GameEngine 游戏主循环/状态管理"]
+        Config["Config 全局配置常量"]
+        Types["Types Point/Direction/枚举"]
+    end
+
+    subgraph 状态管理["状态管理 states"]
+        GameState["GameState 状态基类"]
+        MenuState["MenuState 菜单界面"]
+        PlayingState["PlayingState 游戏主逻辑"]
+        PausedState["PausedState 暂停界面"]
+        GameOverState["GameOverState 结算界面"]
+    end
+
+    subgraph 实体["实体 entities"]
+        Pacman["Pacman 玩家控制"]
+        Ghost["Ghost 幽灵基类"]
+        Blinky["Blinky 红色-直接追踪"]
+        Pinky["Pinky 粉色-预判前方"]
+        Inky["Inky 青色-协同计算"]
+        Clyde["Clyde 橙色-随机巡逻"]
+    end
+
+    subgraph 道具["道具 items"]
+        Item["Item 道具基类"]
+        Dot["Dot 豆子"]
+        PowerPellet["PowerPellet 能量豆"]
+        Fruit["Fruit 水果"]
+    end
+
+    subgraph 地图["地图 map"]
+        MapManager["MapManager 地图加载/解析"]
+        Wall["Wall 墙壁渲染"]
+    end
+
+    subgraph 管理器["管理器 managers"]
+        SoundManager["SoundManager 音效管理"]
+        ScoreManager["ScoreManager 分数管理"]
+    end
+
+    subgraph UI["UI"]
+        UIManager["UIManager HUD渲染"]
+    end
+
+    GameEngine -->|管理| GameState
+    GameState --> MenuState
+    GameState --> PlayingState
+    GameState --> PausedState
+    GameState --> GameOverState
+
+    PlayingState -->|创建/更新| Pacman
+    PlayingState -->|创建/更新| Ghost
+    PlayingState -->|管理| Item
+    PlayingState -->|读取| MapManager
+    PlayingState -->|调用| SoundManager
+    PlayingState -->|调用| ScoreManager
+    PlayingState -->|调用| UIManager
+
+    Ghost --> Blinky
+    Ghost --> Pinky
+    Ghost --> Inky
+    Ghost --> Clyde
+
+    Item --> Dot
+    Item --> PowerPellet
+    Item --> Fruit
+
+    MapManager -->|生成| Wall
+
+    Pacman -->|碰撞检测| Wall
+    Pacman -->|碰撞检测| Ghost
+    Pacman -->|碰撞检测| Item
+    </div>
+</body>
+</html>

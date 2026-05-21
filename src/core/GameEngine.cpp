@@ -2,7 +2,7 @@
 #include "../states/GameState.h"
 
 GameEngine::GameEngine()
-    : m_window(sf::VideoMode(890, 1000), "Pacman Game", sf::Style::Resize | sf::Style::Close) {
+    : m_window(sf::VideoMode(895, 990), "Pacman Game", sf::Style::Resize | sf::Style::Close) {
     m_window.setFramerateLimit(144);
     m_texture.loadFromFile("assets/textures/background.png");
     m_sprite.setTexture(m_texture);

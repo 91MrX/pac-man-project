@@ -195,7 +195,7 @@ void PlayingState::update(GameEngine& engine, float deltaTime)
         }
     }
 
-    // Count remaining dots
+    // 计算剩余点数
     int dotsRemaining = 0;
     for (auto item : m_items) {
         if (item->onCollect() == ItemType::Dot || item->onCollect() == ItemType::PowerPellet) {
@@ -209,7 +209,7 @@ void PlayingState::update(GameEngine& engine, float deltaTime)
         engine.changeState(new GameOverState(true, m_scoreManager->getScore()));
         return;
     }
-    // Power pellet timer
+    // 计算Power Pellet剩余时间比例，用于UI显示
     float powerTimeRatio = 0.f;
     for (auto ghost : m_ghosts) {
         if (ghost->state == State::Frightened) {

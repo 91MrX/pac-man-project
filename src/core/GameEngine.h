@@ -2,8 +2,8 @@
 #include <SFML/Graphics.hpp>
 #include <vector>
 
-class GameState;
-
+class GameState;//向前声明
+//核心游戏引擎类，负责管理游戏状态、窗口和主循环，以及处理事件、更新和渲染
 class GameEngine {
 public:
     GameEngine();

@@ -1,6 +1,6 @@
 #pragma once
 #include <SFML/Graphics.hpp>
-
+//定义游戏中使用的基本类型和结构体，包括方向、状态、位置等
 enum class Direction { Up, Down, Left, Right, None };// 方向枚举
 
 enum class State { Chase, Scatter, Frightened, Eaten };//状态枚举

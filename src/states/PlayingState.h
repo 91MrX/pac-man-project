@@ -10,7 +10,7 @@
 #include "../managers/SoundManager.h"
 #include "../items/Item.h"
 #include "../map/Wall.h"
-
+//游戏中状态类，负责处理游戏逻辑、更新游戏对象状态，并渲染游戏场景
 class PlayingState : public GameState {
 public:
     PlayingState(const std::string& mapName="assets/maps/map1.txt");

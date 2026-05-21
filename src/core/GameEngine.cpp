@@ -4,7 +4,7 @@
 GameEngine::GameEngine()
     : m_window(sf::VideoMode(890, 1000), "Pacman Game", sf::Style::Resize | sf::Style::Close) {
     m_window.setFramerateLimit(144);
-    m_texture.loadFromFile("assets/textures/weiwei.gif");
+    m_texture.loadFromFile("assets/textures/background.png");
     m_sprite.setTexture(m_texture);
     sf::Vector2u texSize = m_texture.getSize();
     m_sprite.setScale(1000.f / texSize.x,1000.f / texSize.y);

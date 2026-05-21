@@ -1,6 +1,6 @@
 #pragma once
 #include "GameState.h"
-
+//游戏结束状态类，显示游戏结果和最终分数，并提供返回菜单或退出游戏的选项
 class GameOverState : public GameState {
 public:
     GameOverState(bool won, int finalScore);

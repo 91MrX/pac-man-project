@@ -1,6 +1,6 @@
 #pragma once
 #include <string>
-
+//分数管理类，负责跟踪当前分数、最高分数，并提供方法来更新和保存分数
 class ScoreManager {
 public:
     ScoreManager();

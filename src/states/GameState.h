@@ -1,6 +1,6 @@
 #pragma once
 #include <SFML/Graphics.hpp>
-
+//核心游戏状态类，所有游戏状态（如菜单、游戏中、暂停、游戏结束）都继承自这个类，定义了处理输入、更新和渲染的接口
 class GameEngine;
 
 class GameState {

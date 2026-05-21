@@ -1,12 +1,12 @@
 #pragma once
 #include <SFML/Audio.hpp>
 #include <string>
-
+//声音管理类，负责加载和播放游戏中的各种声音效果和背景音乐
 class SoundManager {
 public:
     SoundManager();
     ~SoundManager() = default;
-
+    
     void playBackgroundMusic();
     void stopBackgroundMusic();
     void playEatDot();

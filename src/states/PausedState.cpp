@@ -40,19 +40,19 @@ void PausedState::render(sf::RenderWindow& window)
     float winW = static_cast<float>(window.getSize().x);
     float winH = static_cast<float>(window.getSize().y);
 
-    sf::Text titleText("Game Paused", font, 60);
+    sf::Text titleText(L"游戏暂停", font, 60);
     titleText.setFillColor(sf::Color::Red);
     auto titleBounds = titleText.getLocalBounds();
     titleText.setPosition((winW - titleBounds.width) / 2, winH * 0.3f);
     window.draw(titleText);
 
-    sf::Text hintText("Press P to Resume\nPress Escape to Quit", font, 30);
+    sf::Text hintText(L"按P键继续 | 按ESC键退出", font, 30);
     hintText.setFillColor(sf::Color::White);
     auto hintBounds = hintText.getLocalBounds();
     hintText.setPosition((winW - hintBounds.width) / 2, winH * 0.5f);
     window.draw(hintText);
 
-    sf::Text restartText("Press R to Restart", font, 30);
+    sf::Text restartText(L"按R键重新开始", font, 30);
     restartText.setFillColor(sf::Color::Yellow);
     auto restartBounds = restartText.getLocalBounds();
     restartText.setPosition((winW - restartBounds.width) / 2, winH * 0.7f);

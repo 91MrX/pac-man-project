@@ -57,19 +57,19 @@ void MenuState::render(sf::RenderWindow& window)
     float winW = static_cast<float>(window.getSize().x);
     float winH = static_cast<float>(window.getSize().y);
 
-    sf::Text titleText("Pacman Game", font, 70);
+    sf::Text titleText(L"经典吃豆人", font, 70);
     titleText.setFillColor(sf::Color::Yellow);
     auto titleBounds = titleText.getLocalBounds();
     titleText.setPosition((winW - titleBounds.width) / 2, winH * 0.18f);
     window.draw(titleText);
 
-    sf::Text highScoreText("High Score: " + std::to_string(highScore), font, 40);
+    sf::Text highScoreText(L"最高分: " + std::to_wstring(highScore), font, 40);
     highScoreText.setFillColor(sf::Color::Green);
     auto hsBounds = highScoreText.getLocalBounds();
     highScoreText.setPosition((winW - hsBounds.width) / 2, winH * 0.38f);
     window.draw(highScoreText);
 
-    sf::Text instructionText("Press Enter to Start\nPress Escape to Quit", font, 30);
+    sf::Text instructionText(L"按回车键开始 | 按ESC键退出", font, 30);
     instructionText.setFillColor(sf::Color::White);
     auto instBounds = instructionText.getLocalBounds();
     instructionText.setPosition((winW - instBounds.width) / 2, winH * 0.55f);

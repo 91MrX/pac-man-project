@@ -82,21 +82,21 @@ void UIManager::render(sf::RenderWindow& window)
 
     // 显示分数、最高分数和剩余点数，使用不同颜色区分，并根据生命数量调整位置以避免重叠
     float offsetX = 22.f + m_lives * 38.f + 16.f;
-    sf::Text scoreText("Score: " + std::to_string(m_score), font, 24);
+    sf::Text scoreText(L"当前得分: " + std::to_wstring(m_score), font, 24);
     scoreText.setFillColor(sf::Color::White);
     scoreText.setPosition(offsetX, textY);
     window.draw(scoreText);
 
     // 根据当前分数和最高分数的关系，动态调整最高分数的颜色，突出显示玩家是否接近或超过最高分数
     offsetX += scoreText.getLocalBounds().width + 24.f;
-    sf::Text highScoreText("High: " + std::to_string(m_highScore), font, 24);
+    sf::Text highScoreText(L"最高分: " + std::to_wstring(m_highScore), font, 24);
     highScoreText.setFillColor(sf::Color::Green);
     highScoreText.setPosition(offsetX, textY);
     window.draw(highScoreText);
 
     // 显示剩余点数，使用红色字体，并根据剩余点数的多少调整颜色的亮度，提示玩家当前的游戏进度和目标完成度
     offsetX += highScoreText.getLocalBounds().width + 24.f;
-    sf::Text dotsText("Dots: " + std::to_string(m_dotsRemaining), font, 24);
+    sf::Text dotsText(L"剩余豆子: " + std::to_wstring(m_dotsRemaining), font, 24);
     dotsText.setFillColor(sf::Color(255, 183, 174));
     dotsText.setPosition(offsetX, textY);
     window.draw(dotsText);
@@ -131,7 +131,7 @@ void UIManager::render(sf::RenderWindow& window)
         window.draw(gloss);
 
         // 在时间条上方显示“POWER”
-        sf::Text powerText("POWER", font, 14);
+        sf::Text powerText(L"充能时间", font, 14);
         powerText.setFillColor(sf::Color(150, 150, 255));
         auto pwBounds = powerText.getLocalBounds();
         powerText.setPosition((winW - pwBounds.width) / 2.f, barY - 18.f);

@@ -35,23 +35,22 @@ void GameOverState::render(sf::RenderWindow& window)
     float winW = static_cast<float>(window.getSize().x);
     float winH = static_cast<float>(window.getSize().y);
 
-    sf::Text resultText(m_won ? "You Win!" : "You Lose!", font, 70);
+    sf::Text resultText(m_won ? L"你赢了!" : L"你输了!", font, 70);
     resultText.setFillColor(m_won ? sf::Color::Green : sf::Color::Red);
     auto resultBounds = resultText.getLocalBounds();
     resultText.setPosition((winW - resultBounds.width) / 2, winH * 0.18f);
     window.draw(resultText);
 
-    sf::Text scoreText("Final Score: " + std::to_string(m_finalScore), font, 50);
+    sf::Text scoreText(L"最终得分: " + std::to_wstring(m_finalScore), font, 50);
     scoreText.setFillColor(sf::Color::Yellow);
     auto scoreBounds = scoreText.getLocalBounds();
     scoreText.setPosition((winW - scoreBounds.width) / 2, winH * 0.38f);
     window.draw(scoreText);
 
-    const std::string lines[] = {
-        "Press Enter to Return to Menu",
-        "Press Escape to Quit"
+    const std::wstring lines[] = {
+        L"按回车键返回菜单 | 按ESC键退出"
     };
-    for (int i = 0; i < 2; i++) {
+    for (int i = 0; i < 1; i++) {
         sf::Text line(lines[i], font, 28);
         line.setFillColor(sf::Color::White);
         auto lb = line.getLocalBounds();

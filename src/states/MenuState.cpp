@@ -107,7 +107,7 @@ void MenuState::render(sf::RenderWindow& window)
 
     // 难度选择器
     int diffIdx = static_cast<int>(m_selectedDifficulty);
-    std::wstring diffStr = L"难度:  ◀  " + std::wstring(DIFFICULTY_NAMES[diffIdx]) + L"  ▶";
+    std::wstring diffStr = L"难度:  <  " + std::wstring(DIFFICULTY_NAMES[diffIdx]) + L"  >";
     sf::Text diffText(diffStr, font, 38);
     diffText.setFillColor(sf::Color::Cyan);
     auto diffBounds = diffText.getLocalBounds();

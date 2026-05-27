@@ -10,10 +10,11 @@
 #include "../managers/SoundManager.h"
 #include "../items/Item.h"
 #include "../map/Wall.h"
+#include "../core/Config.h"
 //游戏中状态类，负责处理游戏逻辑、更新游戏对象状态，并渲染游戏场景
 class PlayingState : public GameState {
 public:
-    PlayingState(const std::string& mapName="assets/maps/map1.txt");
+    PlayingState(const std::string& mapName="assets/maps/map1.txt", Difficulty difficulty = Difficulty::Normal);
     ~PlayingState();
     void handleInput(GameEngine& engine, sf::Event& event) override;
     void update(GameEngine& engine, float deltaTime) override;
@@ -29,5 +30,6 @@ private:
     UIManager* m_uiManager;
     ScoreManager* m_scoreManager;
     SoundManager* m_soundManager;
-    Point revivePoint; 
+    Point revivePoint;
+    Difficulty m_difficulty;
 };

@@ -13,26 +13,28 @@
 #include "../items/Fruit.h"
 #include "../ui/UIManager.h"
 #include "../managers/ScoreManager.h"
-#include "../core/Config.h"
 #include "PausedState.h"
 #include "GameOverState.h"
 #include "../core/Types.h"
 
 using namespace std;
-PlayingState::PlayingState(const std::string& mapName) : m_mapName(mapName)
+PlayingState::PlayingState(const std::string& mapName, Difficulty difficulty) : m_mapName(mapName), m_difficulty(difficulty)
 {
+    DifficultyConfig config = getDifficultyConfig(m_difficulty);
+
     m_map = new MapManager(Config::MAP_WIDTH, Config::MAP_HEIGHT);
     m_map->LoadFromFile(m_mapName);
-    m_pacman = new Pacman(m_map->getPacmanStartPos().x,m_map->getPacmanStartPos().y,Config::INITIAL_LIVES,Config::PACMAN_SPEED,Direction::None,m_map);
+    m_pacman = new Pacman(m_map->getPacmanStartPos().x,m_map->getPacmanStartPos().y,config.initialLives,config.pacmanSpeed,Direction::None,m_map);
     m_uiManager = new UIManager();
+    m_uiManager->setDifficultyName(config.displayName);
     m_scoreManager = new ScoreManager();
     m_scoreManager->loadHighScore("highscore.txt");
     m_soundManager = new SoundManager();
     m_soundManager->playBackgroundMusic();
-    m_ghosts.push_back(new Blinky(m_map->getBlinkyStartPos().x,m_map->getBlinkyStartPos().y,Config::GHOST_SPEED,Direction::None,m_map));
-    m_ghosts.push_back(new Pinky(m_map->getPinkyStartPos().x,m_map->getPinkyStartPos().y,Config::GHOST_SPEED,Direction::None,m_map));
-    m_ghosts.push_back(new Inky(m_map->getInkyStartPos().x,m_map->getInkyStartPos().y,Config::GHOST_SPEED,Direction::None,m_map));
-    m_ghosts.push_back(new Clyde(m_map->getClydeStartPos().x,m_map->getClydeStartPos().y,Config::GHOST_SPEED,Direction::None,m_map));
+    m_ghosts.push_back(new Blinky(m_map->getBlinkyStartPos().x,m_map->getBlinkyStartPos().y,config.ghostSpeed,Direction::None,m_map,config.frightenedDuration));
+    m_ghosts.push_back(new Pinky(m_map->getPinkyStartPos().x,m_map->getPinkyStartPos().y,config.ghostSpeed,Direction::None,m_map,config.frightenedDuration));
+    m_ghosts.push_back(new Inky(m_map->getInkyStartPos().x,m_map->getInkyStartPos().y,config.ghostSpeed,Direction::None,m_map,config.frightenedDuration));
+    m_ghosts.push_back(new Clyde(m_map->getClydeStartPos().x,m_map->getClydeStartPos().y,config.ghostSpeed,Direction::None,m_map,config.frightenedDuration));
     for (auto ghost : m_ghosts) {
         ghost->setPacman(m_pacman);
         ghost->setBlinky(m_ghosts[0]);
@@ -213,8 +215,9 @@ void PlayingState::update(GameEngine& engine, float deltaTime)
     float powerTimeRatio = 0.f;
     for (auto ghost : m_ghosts) {
         if (ghost->state == State::Frightened) {
-            float remaining = static_cast<float>(Ghost::FRIGHTENED_DURATION - ghost->scarytime);
-            float ratio = remaining / static_cast<float>(Ghost::FRIGHTENED_DURATION);
+            float duration = static_cast<float>(ghost->getFrightenedDuration());
+            float remaining = duration - static_cast<float>(ghost->scarytime);
+            float ratio = remaining / duration;
             if (ratio > powerTimeRatio) powerTimeRatio = ratio;
         }
     }

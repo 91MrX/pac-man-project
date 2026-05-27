@@ -39,7 +39,7 @@ void Ghost::update(float deltaTime) {
 
     if (state == State::Frightened) {
         scarytime += deltaTime;
-        if (scarytime >= FRIGHTENED_DURATION) {
+        if (scarytime >= m_frightenedDuration) {
             state = State::Chase;
             scarytime = 0;
             statetime = 0;
@@ -182,7 +182,7 @@ void Ghost::render(sf::RenderWindow& window)
 
     sf::Color bodyColor;
     if (state == State::Frightened) {
-        float remaining = FRIGHTENED_DURATION - scarytime;
+        float remaining = static_cast<float>(m_frightenedDuration) - scarytime;
         if (remaining <= 2.0f &&
             static_cast<int>(scarytime * 10) % 2 == 0) {
             bodyColor = sf::Color::White;
@@ -223,7 +223,7 @@ sf::FloatRect Ghost::getBounds() const {
 Point Ghost::getPosition() const {
     return m_position;
 }
-Ghost::Ghost(int x, int y, double speed, Direction dir,MapManager* map) {
+Ghost::Ghost(int x, int y, double speed, Direction dir,MapManager* map, double frightenedDuration) {
     m_position.x = x;
     m_position.y = y;
     spawnPoint = map->GhostDoor;
@@ -235,6 +235,7 @@ Ghost::Ghost(int x, int y, double speed, Direction dir,MapManager* map) {
     statetime = 0;
     state = State::Scatter;
     this->map = map;
+    m_frightenedDuration = frightenedDuration;
 }
 void Ghost::reset() {
     m_position = spawnPoint;

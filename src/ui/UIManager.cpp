@@ -101,6 +101,15 @@ void UIManager::render(sf::RenderWindow& window)
     dotsText.setPosition(offsetX, textY);
     window.draw(dotsText);
 
+    // 显示当前难度
+    if (!m_difficultyName.empty()) {
+        offsetX += dotsText.getLocalBounds().width + 24.f;
+        sf::Text diffText(L"难度: " + m_difficultyName, font, 24);
+        diffText.setFillColor(sf::Color::Cyan);
+        diffText.setPosition(offsetX, textY);
+        window.draw(diffText);
+    }
+
     // 能量豆时间条
     if (m_powerTimeRatio > 0.f) {
         float winW = static_cast<float>(window.getSize().x);

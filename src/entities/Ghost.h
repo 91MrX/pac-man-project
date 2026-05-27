@@ -24,12 +24,13 @@ public:
     void setPacman(const Pacman* p) { m_pacman = p; }
     void setBlinky(const Ghost* b) { m_blinky = b; }
     Point getPosition() const;
-    static constexpr double FRIGHTENED_DURATION = 6.0;
-    Ghost (int x,int y,double speed,Direction dir,MapManager* map);
+    double getFrightenedDuration() const { return m_frightenedDuration; }
+    Ghost (int x,int y,double speed,Direction dir,MapManager* map, double frightenedDuration = 6.0);
     void reset();
     Direction getDirection(const Point& pacmanPos, const Point& blinkyPos, Direction pacmanDir);
 private:
     const Pacman* m_pacman = nullptr;
     const Ghost* m_blinky = nullptr;
     double moveCooldown = 0.0;
+    double m_frightenedDuration = 6.0;
 };
